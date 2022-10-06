@@ -35,7 +35,6 @@ def check_complete(indexes):
     return target_num == count
 
 
-
 def get_pwd(n):
     blogs = []
     for name in glob.glob('../aww_blog_history/blogs*.pickle'):
@@ -49,15 +48,13 @@ def get_pwd(n):
             return blog.get('pwd')
 
 
-def generate_decompress_command_line(current_path, name, is_slice=False):
+def generate_decompress_command_line(current_path, name):  # , is_slice=False):
     pwd = get_pwd(name)
     if pwd is None:
         pwd = get_pwd(os.path.split(current_path)[1])
         if pwd is None:
             pwd = input('查询不到密码，请手动输入：').strip()
-    if is_slice:
-        name = re.sub('part\d+', 'part*', name)
-    return f'7z x "{os.path.join(current_path, name)}" -p"{pwd}" -o"{current_path}" && del "{os.path.join(current_path, name)}"'
+    return f'7z x "{os.path.join(current_path, name)}" -p"{pwd}" -o"{current_path}" && rm "{os.path.join(current_path, name)}"'
 
 
 def write_in(s):
@@ -103,21 +100,21 @@ def main():
         try:
             a = a.strip()
             if a == 'a':
-                for a in range(len(dir_l) + 1,len(dir_l) + len(name_l) + len(single_whole_l)+1):
+                for a in range(len(dir_l) + 1, len(dir_l) + len(name_l) + len(single_whole_l) + 1):
                     if len(dir_l) + 1 <= a <= len(dir_l) + len(name_l):
                         a = a - len(dir_l) - 1
-                        name = name_l[a]+'.part*.rar'
+                        name = name_l[a] + '.part*.rar'
                     elif len(dir_l) + 1 + len(name_l) <= a <= len(dir_l) + len(name_l) + len(single_whole_l):
                         a = a - len(name_l) - len(dir_l) - 1
                         name = single_whole_l[a]
                     else:
                         print(a)
                         raise ValueError('number out of range')
-                    s = generate_decompress_command_line(current_path, name, is_slice)
+                    s = generate_decompress_command_line(current_path, name)  # , is_slice)
                     write_in(s)
-            else: 
+            else:
                 a = int(a)
-                is_slice = False
+                # is_slice = False
                 if a == 1:
                     current_path = os.path.split(current_path)[0]
                 elif 2 <= a <= len(dir_l):
@@ -126,13 +123,13 @@ def main():
                 else:
                     if len(dir_l) + 1 <= a <= len(dir_l) + len(name_l):
                         a = a - len(dir_l) - 1
-                        name = name_l[a]+'.part*.rar'
+                        name = name_l[a] + '.part*.rar'
                     elif len(dir_l) + 1 + len(name_l) <= a <= len(dir_l) + len(name_l) + len(single_whole_l):
                         a = a - len(name_l) - len(dir_l) - 1
                         name = single_whole_l[a]
                     else:
                         raise ValueError('number out of range')
-                    s = generate_decompress_command_line(current_path, name, is_slice)
+                    s = generate_decompress_command_line(current_path, name)  # , is_slice)
                     write_in(s)
         except ValueError as e:
             print(e)
