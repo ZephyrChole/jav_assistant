@@ -2,6 +2,7 @@ import os
 import re
 import glob
 import pickle
+import platform
 
 
 def get_decompressible_combs(files):
@@ -54,7 +55,9 @@ def generate_decompress_command_line(current_path, name):  # , is_slice=False):
         pwd = get_pwd(os.path.split(current_path)[1])
         if pwd is None:
             pwd = input('查询不到密码，请手动输入：').strip()
-    return f'7z x "{os.path.join(current_path, name)}" -p"{pwd}" -o"{current_path}" && rm "{os.path.join(current_path, name)}"'
+    return '7z x "{}" -p"{}" -o"{}" && {} "{}"'.format(os.path.join(current_path, name), pwd, current_path,
+                                                       "rm" if platform.system() == 'Linux' else 'Windows',
+                                                       os.path.join(current_path, name))
 
 
 def write_in(s):
@@ -112,6 +115,8 @@ def main():
                         raise ValueError('number out of range')
                     s = generate_decompress_command_line(current_path, name)  # , is_slice)
                     write_in(s)
+            elif a == 'e':
+                break
             else:
                 a = int(a)
                 # is_slice = False
