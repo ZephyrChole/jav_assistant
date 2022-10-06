@@ -62,8 +62,12 @@ def generate_decompress_command_line(current_path, name):  # , is_slice=False):
 
 
 def write_in(s):
-    with open('decompress.bat', 'a') as file:
-        file.write(s + '\n')
+    if platform.system() == 'Linux':
+        with open('decompress.bat', 'a') as file:
+            file.write(s + '\n')
+    else:
+        with open('decompress.sh', 'a') as file:
+            file.write(s + '\n')
     print('成功写入！')
 
 
