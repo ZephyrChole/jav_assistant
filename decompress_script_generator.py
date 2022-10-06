@@ -99,8 +99,8 @@ def main():
             print(f'{count}. {name}')
             count += 1
 
-        print('\n')
         a = input('')
+        print('\n')
         try:
             a = a.strip()
             if a == 'a':
