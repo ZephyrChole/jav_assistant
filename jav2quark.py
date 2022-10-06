@@ -107,8 +107,8 @@ for blog in tqdm(blogs):
 br.quit()
 if len(blogs):
     count = 1
-    while os.path.exists(f'./aww_blog_history/blogs{count}.pickle'):
+    while os.path.exists(f'./aww_history/blogs{count}.pickle'):
         count += 1
-    f = open(f'./aww_blog_history/blogs{count}.pickle', 'wb')
+    f = open(f'./aww_history/blogs{count}.pickle', 'wb')
     pickle.dump(blogs, f)
     f.close()
