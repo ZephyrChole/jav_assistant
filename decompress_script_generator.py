@@ -39,6 +39,7 @@ def check_complete(indexes):
 
 def get_pwd(n):
     blogs = []
+    print(sys.path[0])
     for name in glob.glob(os.path.join(sys.path[0], 'aww_blog_history/blogs*.pickle')):
         f = open(name, 'rb')
         blogs.extend(pickle.load(f))

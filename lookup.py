@@ -2,7 +2,7 @@ import glob
 import pickle
 
 blogs = []
-for name in glob.glob('./aww_blog_history/blogs*.pickle'):
+for name in glob.glob('./aww_history/blogs*.pickle'):
     f = open(name, 'rb')
     blogs.extend(pickle.load(f))
     f.close()
