@@ -9,7 +9,8 @@ from utils import get_browser
 
 
 def get_blog_urls():
-    br.get('https://www.javbus.com/forum/home.php?mod=space&uid=440145&do=thread&view=me&order=dateline&from=space&page=1')
+    br.get(
+        'https://www.javbus.com/forum/home.php?mod=space&uid=440145&do=thread&view=me&order=dateline&from=space&page=1')
     br.implicitly_wait(10)
     # input('enter blog resemble url\n')
     urls = []
@@ -26,7 +27,7 @@ def get_blog_urls():
 
 def get_quark_and_pwd():
     s = br.find_by_css('td.t_f').get_attribute('textContent')
-    #print([s])
+    # print([s])
     a = []
     a.append(re.search('资源(连|链)接:(.+)\n', s).group(2).strip())
     a.append(re.search('解压密码:(.+)\n', s).group(1).strip())
@@ -35,7 +36,7 @@ def get_quark_and_pwd():
 
 def load():
     blogs = []
-    for name in glob.glob('./aww_blog_history/blogs*.pickle'):
+    for name in glob.glob('./aww_history/blogs*.pickle'):
         f = open(name, 'rb')
         blogs.extend(pickle.load(f))
         f.close()
@@ -44,7 +45,7 @@ def load():
     return blogs
 
 
-br = get_browser(minimize_on_start=True, proxy='http://127.0.0.1:9910',load_main_config=True)
+br = get_browser(minimize_on_start=True, proxy='http://127.0.0.1:9910', load_main_config=True)
 br.find_by_css = lambda css: br.find_element(By.CSS_SELECTOR, css)
 
 # input('turn on proxy\n')
@@ -58,9 +59,9 @@ blog_urls = list(filter(lambda x: not remain_blog_urls.get(x), blog_urls))
 blogs = [{'url': url} for url in blog_urls]
 for blog in tqdm(blogs):
     try:
-        #input('any key to continue')
+        # input('any key to continue')
         br.get(blog['url'])
-        #br.implicitly_wait(10)
+        # br.implicitly_wait(10)
         time.sleep(20)
         quark, pwd = get_quark_and_pwd()
         print(quark, pwd)
