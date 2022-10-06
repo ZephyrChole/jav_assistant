@@ -1,0 +1,3 @@
+[submodule "aww_history"]
+	path = aww_history
+	url = git@github.com:ZephyrChole/aww_history
