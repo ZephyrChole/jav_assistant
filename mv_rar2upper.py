@@ -7,7 +7,7 @@ def loop(path):
         if os.path.isdir(ipath):
             loop(ipath)
         elif i[-4:] == '.rar':
-            os.rename(ipath, os.path.join('..', ipath))
+            os.rename(ipath, os.path.join(os.path.split(path)[0],i))
 
 
 if __name__ == '__main__':
